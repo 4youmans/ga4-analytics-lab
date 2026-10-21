@@ -1,46 +1,63 @@
 # GA4 Analytics Lab
 
-Шаблон для ОП.03 «Информационные технологии», темы 5 и последующих занятий по веб-аналитике.
+Учебный проект ОП.03 «Информационные технологии»: сайт, события GA4 и заявки в Google Таблице.
 
-## Начало работы
+## Мой проект
 
-1. Нажмите **Use this template → Create a new repository**, создайте собственную копию.
-2. В VS Code выберите **Clone Repository**, клонируйте свою копию и откройте папку.
-3. Для локального просмотра используйте Live Server в VS Code.
-4. В Vercel импортируйте свой репозиторий. Framework Preset: **Other**, Root Directory: корень; Build Command: пусто (при необходимости Override), Output Directory: **.**.
-5. После Deploy откройте постоянный Production URL.
+- Репозиторий: https://github.com/4youmans/ga4-analytics-lab
+- Сайт: https://ga4-analytics-lab-six.vercel.app
+- Measurement ID: G-0L7H66CE9D — один Google Tag на каждой из четырёх HTML-страниц.
+- Приёмник: собственный Apps Script Web App; адрес /exec установлен в action формы contacts.html.
 
-## Структура
+Статический HTML/CSS/JavaScript. Сборка и установка пакетов не нужны. В существующем проекте Vercel: Framework Preset Other, Root Directory — корень, Build Command — пусто, Output Directory — точка.
 
-```text
-index.html
-about.html
-contacts.html
-css/style.css
-js/script.js
-README.md
-```
+## Страницы
 
-Статический HTML/CSS/JavaScript: npm и сборка не нужны. Навигация работает на всех страницах.
-Контактная форма учебная: проверяет поля локально, ничего не отправляет и не сохраняет.
+| Страница | Назначение |
+|---|---|
+| index.html | Главная и кнопка открытия программы |
+| about.html | Инструкция, скачивание памятки и справка GA4 |
+| contacts.html | POST-форма с request_id и UTM |
+| guide.html | Материал для Instagram-воронки; перенос меток к форме |
 
-## Установка аналитики
+## События
 
-В исходном шаблоне Google Tag отсутствует — это часть практической работы.
-Получите код своего **учебного** веб-потока в GA4 и вставьте один экземпляр сразу после открывающего `<head>` в **каждый** из трёх HTML-файлов.
-Сохраните файлы, выполните Commit и Push, дождитесь нового Ready Deployment.
-Посетите Home, About, Contacts и проверьте реальные события в Realtime.
+| Событие | Условие и параметры |
+|---|---|
+| cta_click | Программа: button_name=program, page_section=hero; материал: guide_to_form, backend_guide |
+| nav_click | Меню: link_text, from_page, link_url |
+| utm_visit | В URL есть utm_source: utm_source, utm_medium, utm_campaign, landing_page |
+| file_download_lab | Памятка: file_name, file_extension |
+| external_resource_click | Справка: resource_name, link_domain |
+| read_30s | 30 секунд видимой вкладки: page_path |
+| scroll_75 | 75% доступной прокрутки, один раз на страницу: page_path |
+| form_error | Невалидное поле: field_name, form_id |
+| generate_lead | Отправка корректной настроенной формы: lead_source=contact_form |
 
-Не меняйте рабочий поток ByteCamp. Не публикуйте секреты, пароли или личные данные.
-Measurement ID не является секретом; используйте только ID своего учебного потока.
+page_view, form_start и form_submit собирает Google Tag / улучшенная статистика. Вторые ручные обработчики для них не добавляются. Имя и email передаются только приёмнику заявки, пользовательские события их не содержат.
 
-## UTM-проверка
+## Форма и таблица
 
-Подставьте собственный Production URL:
+Заголовки листа leads: request_id, created_at, name, email, direction, utm_source, utm_medium, utm_campaign, status.
 
-```text
-https://YOUR-PROJECT.vercel.app/?utm_source=telegram&utm_medium=social&utm_campaign=ga4_lab
-```
+Код приёмника: apps-script/Code.gs. Функция setupLeadsSheet закрепляет заголовок, настраивает список new/in_progress/done/rejected, отклонение неверного статуса, подсветку дублей и пропусков. Существующие строки не удаляются; другая структура листа не перезаписывается.
 
-Откройте ссылку в новой приватной сессии. Не принимайте новую вкладку за новую сессию GA4.
+Приёмник проверяет поля, email, направление, длину значений и UUID. Блокировка защищает проверку ID и запись от одновременных запросов. Дату и статус new устанавливает сервер. Текст защищён от превращения в формулы таблицы.
 
+Повторная отправка без сброса использует тот же request_id. Новый ID создаётся после кнопки «Новая заявка». generate_lead означает попытку POST; факт сохранения проверяется отдельно по ID в таблице. Скрытый iframe не подтверждает успешную запись.
+
+## Ссылки для проверки
+
+- Отладка: https://ga4-analytics-lab-six.vercel.app/?debug_mode=true
+- Telegram: https://ga4-analytics-lab-six.vercel.app/contacts.html?debug_mode=true&utm_source=telegram&utm_medium=social&utm_campaign=lesson07
+- Instagram: https://ga4-analytics-lab-six.vercel.app/guide.html?debug_mode=true&utm_source=instagram&utm_medium=social&utm_campaign=backend_guide&utm_content=reel01
+
+Отладка сохраняется при переходах по страницам. Материал переносит четыре UTM к форме; в таблице сохраняются три обязательные метки. Для прямого захода открыть contacts.html без меток. Новая вкладка не гарантирует новый сеанс GA4.
+
+## Проверки
+
+Локальные проверки без сетевых запросов: node --test tests/analytics.test.cjs
+
+После публикации проверить тот же commit в Vercel, события в Realtime/DebugView и строки в собственной таблице. Обычные отчёты и исследования требуют обработки данных GA4.
+
+Состояние тем курса: [docs/course-status.md](docs/course-status.md).

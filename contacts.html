@@ -1,26 +1,29 @@
 <!doctype html>
 <html lang="ru">
 <head>
- <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L7H66CE9D"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-0L7H66CE9D');
+  gtag('config', 'G-0L7H66CE9D', {
+    debug_mode: new URLSearchParams(location.search).get('debug_mode') === 'true'
+  });
 </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Учебная лаборатория веб-аналитики: страницы, переходы и события.">
   <title>Contacts — GA4 Lab</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/events.css">
+  <script src="js/metrics.js" defer></script>
   <script src="js/script.js" defer></script>
 </head>
 <body>
   <header><a class="brand" href="index.html">GA4<span>LAB</span></a><nav aria-label="Основная навигация"><a href="index.html">Home</a><a href="about.html">About</a><a href="contacts.html" aria-current="page">Contacts</a></nav></header>
-  <main><p class="eyebrow">ОП.03 / ЛАБОРАТОРИЯ ВЕБ-АНАЛИТИКИ</p><h1>Давайте<br><em>оставаться на связи.</em></h1><p class="lead">Последняя остановка маршрута. Здесь можно проверить взаимодействие с учебной формой.</p><div class="contact-grid"><form id="contact-form"><label for="visitor-name">Как к вам обращаться</label><input id="visitor-name" name="name" autocomplete="off" placeholder="Учебный псевдоним" required maxlength="60"><label for="topic">Тема сообщения</label><select id="topic" name="topic"><option value="analytics">Веб-аналитика</option><option value="website">Публикация сайта</option><option value="other">Другая тема</option></select><button class="button" type="submit">Проверить форму <span>↗</span></button><p id="form-status" role="status"></p><small>Учебная форма: введённые данные не отправляются и не сохраняются.</small></form><aside><span class="tag">ВАШ МАРШРУТ</span><h2>Home → About<br>→ Contacts</h2><p>Все три страницы имеют собственный адрес. После установки тега их просмотры можно искать в отчётах.</p><a class="secondary" href="index.html">Начать маршрут заново →</a></aside></div></main>
+  <main><p class="eyebrow">ОП.03 / ЛАБОРАТОРИЯ ВЕБ-АНАЛИТИКИ</p><h1>Давайте<br><em>оставаться на связи.</em></h1><p class="lead">Последняя остановка маршрута. Здесь можно отправить учебную заявку и проследить её путь до таблицы.</p><div class="contact-grid"><form id="lead-form" action="https://script.google.com/macros/s/AKfycbx1SZu0C5HmVD4XKjDQmJr0X7fR7kYcELD-FARWaHEnewBgZ3yCZ1DEmZPdAOXIvna3/exec" method="POST" target="submission-frame"><label for="visitor-name">Имя</label><input id="visitor-name" name="name" autocomplete="off" placeholder="Иван Тестов" required maxlength="200"><label for="visitor-email">Email</label><input id="visitor-email" name="email" type="email" autocomplete="off" placeholder="student@example.com" required maxlength="200"><label for="direction">Направление</label><select id="direction" name="direction" required><option value="">Выберите направление</option><option value="frontend">Frontend</option><option value="backend">Backend</option><option value="data">Data</option></select><input type="hidden" name="request_id" id="request_id"><input type="hidden" name="utm_source" id="utm_source"><input type="hidden" name="utm_medium" id="utm_medium"><input type="hidden" name="utm_campaign" id="utm_campaign"><div class="form-actions"><button class="button" type="submit">Отправить заявку <span>↗</span></button><button class="secondary" type="reset">Новая заявка</button></div><p id="form-status" role="status"></p><noscript><p>Для отправки заявки включите JavaScript.</p></noscript><small>Учебная форма: используйте вымышленные данные. Имя и email в GA4 не отправляются.</small></form><aside><span class="tag">ВАШ МАРШРУТ</span><h2>Home → About<br>→ Contacts</h2><p>Все три страницы имеют собственный адрес. После установки тега их просмотры можно искать в отчётах.</p><a class="secondary" href="index.html">Начать маршрут заново →</a></aside></div><iframe name="submission-frame" id="submission-frame" title="Ответ приёмника заявок" hidden></iframe></main>
   <footer><span>GA4 Lab · Учебный сайт</span><span>HTML / CSS / JavaScript</span></footer>
 </body>
 </html>
-

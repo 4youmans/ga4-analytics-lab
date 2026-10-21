@@ -1,25 +1,29 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0L7H66CE9D"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-0L7H66CE9D');
+  gtag('config', 'G-0L7H66CE9D', {
+    debug_mode: new URLSearchParams(location.search).get('debug_mode') === 'true'
+  });
 </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Учебная лаборатория веб-аналитики: страницы, переходы и события.">
   <title>About — GA4 Lab</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/events.css">
+  <script src="js/metrics.js" defer></script>
   <script src="js/script.js" defer></script>
 </head>
 <body>
   <header><a class="brand" href="index.html">GA4<span>LAB</span></a><nav aria-label="Основная навигация"><a href="index.html">Home</a><a href="about.html" aria-current="page">About</a><a href="contacts.html">Contacts</a></nav></header>
-  <main><p class="eyebrow">ОП.03 / ЛАБОРАТОРИЯ ВЕБ-АНАЛИТИКИ</p><h1>Маленький сайт.<br><em>Большая практика.</em></h1><p class="lead">GA4 Lab помогает увидеть, как обычный просмотр страницы превращается в событие аналитики.</p><section class="steps" aria-label="Этапы практики"><article><b>01</b><div><h2>Опубликуйте свою копию</h2><p>Скопируйте шаблон в GitHub и подключите репозиторий к Vercel.</p></div></article><article><b>02</b><div><h2>Подключите Google Tag</h2><p>Установите код своего учебного потока на все три страницы.</p></div></article><article><b>03</b><div><h2>Проверьте наблюдения</h2><p>Посетите страницы и найдите события в Realtime.</p></div></article></section><div class="actions"><a class="button" href="contacts.html">Следующая страница <span>↗</span></a><a class="secondary" href="index.html">Вернуться на Home →</a></div></main>
+  <main><p class="eyebrow">ОП.03 / ЛАБОРАТОРИЯ ВЕБ-АНАЛИТИКИ</p><h1>Маленький сайт.<br><em>Большая практика.</em></h1><p class="lead">GA4 Lab помогает увидеть, как обычный просмотр страницы превращается в событие аналитики.</p><section class="steps" aria-label="Этапы практики"><article><b>01</b><div><h2>Откройте UTM-ссылку</h2><p>Параметры кампании сохраняются в отдельном событии без персональных данных.</p></div></article><article><b>02</b><div><h2>Включите режим отладки</h2><p>Добавьте <code>?debug_mode=true</code> к адресу и найдите события в DebugView.</p></div></article><article><b>03</b><div><h2>Проверьте действия</h2><p>Перейдите по страницам, откройте программу, скачайте памятку и отправьте учебную форму.</p></div></article></section><p>Дополнительные материалы помогают проверить автоматические события улучшенной статистики и собственные события проекта. В отчёте нужно указать фактическое имя события и его параметры, а не только приложить общий снимок экрана.</p><div class="actions"><a class="button" data-download-name="analytics-guide" href="assets/analytics-guide.pdf" download>Скачать памятку <span>↓</span></a><a class="secondary" data-external-name="ga4-help" href="https://support.google.com/analytics/answer/7201382?hl=ru" target="_blank" rel="noopener">Справка DebugView →</a></div><div class="actions"><a class="button" href="contacts.html">Следующая страница <span>↗</span></a><a class="secondary" href="index.html">Вернуться на Home →</a></div></main>
   <footer><span>GA4 Lab · Учебный сайт</span><span>HTML / CSS / JavaScript</span></footer>
 </body>
 </html>

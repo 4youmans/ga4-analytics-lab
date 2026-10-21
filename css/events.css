@@ -1,0 +1,13 @@
+.program-preview {
+  max-width: 760px;
+  padding: 22px 26px;
+  background: #f9fbf7;
+  border-left: 5px solid #087c73;
+}
+
+.program-preview h2 {
+  margin-top: 0;
+}
+
+.form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+.form-actions .secondary { background: transparent; border: 0; cursor: pointer; text-decoration: underline; }
