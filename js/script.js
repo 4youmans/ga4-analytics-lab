@@ -13,7 +13,7 @@
     window.gtag?.('event', 'form_error', {
       field_name: event.target.name || 'unknown',
       form_id: 'lead-form',
-      debug_mode: params.get('debug_mode') === 'true'
+      ...(params.get('debug_mode') === 'true' ? { debug_mode: true } : {})
     });
   }, true);
   leadForm.addEventListener('submit', event => {
@@ -29,7 +29,7 @@
       window.gtag('event', 'generate_lead', {
         lead_source:'contact_form',
         transport_type:'beacon',
-        debug_mode: params.get('debug_mode') === 'true'
+        ...(params.get('debug_mode') === 'true' ? { debug_mode: true } : {})
       });
     }
     document.querySelector('#form-status').textContent =
@@ -58,7 +58,7 @@ if (programCta) {
       gtag('event', 'cta_click', {
         button_name: 'program',
         page_section: 'hero',
-        debug_mode: new URLSearchParams(location.search).get('debug_mode') === 'true'
+        ...(new URLSearchParams(location.search).get('debug_mode') === 'true' ? { debug_mode: true } : {})
       });
     }
   });

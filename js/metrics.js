@@ -5,7 +5,7 @@ const sendEvent = (name, parameters = {}) => {
   window.gtag('event', name, {
     ...parameters,
     transport_type: 'beacon',
-    debug_mode: new URLSearchParams(window.location.search).get('debug_mode') === 'true'
+    ...(new URLSearchParams(window.location.search).get('debug_mode') === 'true' ? { debug_mode: true } : {})
   });
 };
 

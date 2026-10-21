@@ -65,8 +65,24 @@ test('reading counts visible time and scrolling is counted once', () => {
   b.document.hidden = false; b.document.listeners.visibilitychange(); b.tick(19999);
   assert.equal(b.events.length, 0); b.tick(1);
   assert.equal(b.events.filter(x=>x[1]==='read_30s').length, 1);
+  assert.equal(Object.hasOwn(b.events[0][2], 'debug_mode'), false);
   b.window.scrollY = 900; b.window.listeners.scroll(); b.window.listeners.scroll();
   assert.equal(b.events.filter(x=>x[1]==='scroll_75').length, 1);
+});
+
+test('page configuration includes debug_mode only for an explicit debug visit', () => {
+  for (const name of ['index.html','about.html','contacts.html','guide.html']) {
+    const inline = [...code(name).matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)]
+      .map(m=>m[1]).find(text=>text.includes("gtag('config'"));
+    for (const debug of [false,true]) {
+      const context=vm.createContext({location:new URL('https://example.test/'+name+(debug?'?debug_mode=true':'')),URLSearchParams,Date});
+      context.window=context;
+      vm.runInContext(inline,context);
+      const config=Array.from(context.dataLayer).find(entry=>entry[0]==='config')[2];
+      assert.equal(Object.hasOwn(config,'debug_mode'),debug, `${name}: debug=${debug}`);
+      if(debug) assert.equal(config.debug_mode,true);
+    }
+  }
 });
 
 test('guide retains campaign, content and debugging on the route to the form', () => {

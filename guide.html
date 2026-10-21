@@ -9,7 +9,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments)}
     gtag('js', new Date());
-    gtag('config', 'G-0L7H66CE9D', { debug_mode: new URLSearchParams(location.search).get('debug_mode') === 'true' });
+    gtag('config', 'G-0L7H66CE9D', { ...(new URLSearchParams(location.search).get('debug_mode') === 'true' ? { debug_mode: true } : {}) });
   </script>
   <style>
     body{margin:0;background:#f2f1e9;color:#020835;font:18px/1.6 system-ui,sans-serif}

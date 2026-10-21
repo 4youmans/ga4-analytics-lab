@@ -9,7 +9,7 @@
   gtag('js', new Date());
 
   gtag('config', 'G-0L7H66CE9D', {
-    debug_mode: new URLSearchParams(location.search).get('debug_mode') === 'true'
+    ...(new URLSearchParams(location.search).get('debug_mode') === 'true' ? { debug_mode: true } : {})
   });
 </script>
   <meta charset="utf-8">
